@@ -1,218 +1,168 @@
-<div class="card" id="assessment">
-
-<h2 style="margin-bottom:20px;">
-🧠 Mental Health Self Assessment
-</h2>
-
-<p style="margin-bottom:20px;">
-Over the last two weeks, how often have you experienced the following?
-</p>
-
-<div class="question-box">
-
-<label>1. Feeling nervous, anxious, or on edge?</label>
-<select class="question">
-<option value="0">Not at all</option>
-<option value="1">Several days</option>
-<option value="2">More than half the days</option>
-<option value="3">Nearly every day</option>
-</select>
-
-<label>2. Feeling down, depressed, or hopeless?</label>
-<select class="question">
-<option value="0">Not at all</option>
-<option value="1">Several days</option>
-<option value="2">More than half the days</option>
-<option value="3">Nearly every day</option>
-</select>
-
-<label>3. Trouble falling or staying asleep?</label>
-<select class="question">
-<option value="0">Not at all</option>
-<option value="1">Several days</option>
-<option value="2">More than half the days</option>
-<option value="3">Nearly every day</option>
-</select>
-
-<label>4. Feeling tired or having little energy?</label>
-<select class="question">
-<option value="0">Not at all</option>
-<option value="1">Several days</option>
-<option value="2">More than half the days</option>
-<option value="3">Nearly every day</option>
-</select>
-
-<label>5. Difficulty concentrating on tasks?</label>
-<select class="question">
-<option value="0">Not at all</option>
-<option value="1">Several days</option>
-<option value="2">More than half the days</option>
-<option value="3">Nearly every day</option>
-</select>
-
-<button onclick="calculateAssessment()" class="assessment-btn">
-View My Results
-</button>
-
-<div id="assessmentResult"></div>
-
-<div id="bookNowContainer" style="display:none;">
-<a href="#booking" class="book-now-btn">
-Book a Counselling Session
-</a>
-</div>
-
-</div>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hope Haven Wellness Centre</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
-
-.question-box label{
-display:block;
-margin-top:18px;
-margin-bottom:8px;
-font-weight:600;
-}
-
-.question-box select{
-width:100%;
-padding:12px;
-border:1px solid #ddd;
-border-radius:8px;
-margin-bottom:10px;
-}
-
-.assessment-btn{
-width:100%;
-padding:15px;
-margin-top:20px;
-background:#2f7a22;
-color:white;
-border:none;
-border-radius:8px;
-font-size:16px;
-cursor:pointer;
-}
-
-.assessment-btn:hover{
-background:#245d1a;
-}
-
-#assessmentResult{
-margin-top:25px;
-padding:20px;
-border-radius:10px;
-font-weight:600;
-display:none;
-}
-
-.book-now-btn{
-display:block;
-text-align:center;
-background:#0d6efd;
-color:white;
-padding:15px;
-border-radius:8px;
-text-decoration:none;
-margin-top:20px;
-font-weight:bold;
-}
-
+:root{--primary:#2f6f3e;--accent:#7bb661;--light:#f7f8f5;--dark:#1d2b1f}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial,sans-serif}
+body{background:var(--light);color:#333;line-height:1.6}
+header{position:sticky;top:0;background:#fff;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 12px rgba(0,0,0,.08);z-index:1000}
+.logo h2{color:var(--primary)}
+.logo p{font-size:.85rem}
+nav a{text-decoration:none;color:#333;margin-left:18px;font-weight:600}
+.hero{height:90vh;background:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),url('https://images.unsplash.com/photo-1516589091380-5d8e87df6999?q=80&w=1600') center/cover;display:flex;align-items:center;padding:5%;color:#fff}
+.hero h1{font-size:4rem;max-width:700px}
+.hero p{max-width:650px;margin:20px 0}
+.btn{display:inline-block;background:var(--accent);color:#fff;padding:14px 28px;border-radius:8px;text-decoration:none}
+section{padding:70px 5%}
+.section-title{text-align:center;color:var(--primary);margin-bottom:30px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.card{background:#fff;padding:25px;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.card i{font-size:38px;color:var(--primary);margin-bottom:10px}
+.booking{display:grid;grid-template-columns:1fr 1fr;gap:25px}
+input,select,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:8px}
+button{background:var(--primary);color:#fff;border:none;padding:14px;border-radius:8px;cursor:pointer;width:100%}
+.testimonial{max-width:800px;margin:auto;text-align:center}
+.contact{display:grid;grid-template-columns:1fr 1.5fr;gap:20px}
+footer{background:var(--dark);color:#fff;padding:40px;text-align:center}
+.whatsapp{position:fixed;right:20px;bottom:20px;background:#25D366;color:#fff;width:65px;height:65px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:34px;text-decoration:none}
+.result{margin-top:15px;padding:15px;border-radius:8px;display:none}
+@media(max-width:900px){.booking,.contact{grid-template-columns:1fr}.hero h1{font-size:2.5rem}nav{display:none}}
 </style>
+</head>
+<body>
+
+<header>
+<div class="logo">
+<h2>Hope Haven Wellness Centre</h2>
+<p>Connecting Hope, Healing Minds, Transforming Lives.</p>
+</div>
+<nav>
+<a href="#about">About</a>
+<a href="#services">Services</a>
+<a href="#booking">Appointments</a>
+<a href="#assessment">Assessment</a>
+<a href="#contact">Contact</a>
+</nav>
+</header>
+
+<section class="hero">
+<div>
+<h1>Professional Counselling & Mental Wellness Services</h1>
+<p>A safe, confidential and supportive environment for individuals, couples, families and young people seeking healing, growth and emotional wellbeing.</p>
+<a href="#booking" class="btn">Book Appointment</a>
+</div>
+</section>
+
+<section id="about">
+<h2 class="section-title">About Hope Haven</h2>
+<div class="card">
+<p>Hope Haven Wellness Centre provides evidence-informed counselling, psychotherapy, emotional support, life coaching and mental wellness services. Our mission is to improve emotional wellbeing and strengthen resilience within individuals, families and communities.</p>
+</div>
+</section>
+
+<section id="services">
+<h2 class="section-title">Our Services</h2>
+<div class="cards">
+<div class="card"><i class="fa-solid fa-brain"></i><h3>Individual Therapy</h3><p>Support for anxiety, stress, depression and personal growth.</p></div>
+<div class="card"><i class="fa-solid fa-user-group"></i><h3>Couples Counselling</h3><p>Relationship strengthening and conflict resolution.</p></div>
+<div class="card"><i class="fa-solid fa-child-reaching"></i><h3>Youth Counselling</h3><p>Guidance for adolescents and young adults.</p></div>
+<div class="card"><i class="fa-solid fa-heart"></i><h3>Grief Support</h3><p>Compassionate support through loss and transition.</p></div>
+<div class="card"><i class="fa-solid fa-graduation-cap"></i><h3>Career Guidance</h3><p>Educational and career decision support.</p></div>
+<div class="card"><i class="fa-solid fa-laptop"></i><h3>Online Sessions</h3><p>Secure virtual counselling appointments.</p></div>
+</div>
+</section>
+
+<section id="booking">
+<h2 class="section-title">Book an Appointment</h2>
+<div class="booking">
+<div class="card">
+<form action="https://formsubmit.co/xavieronyango57@gmail.com" method="POST">
+<input type="hidden" name="_captcha" value="false">
+<input type="hidden" name="_subject" value="New Appointment Request">
+<input type="text" name="name" placeholder="Full Name" required>
+<input type="email" name="email" placeholder="Email Address" required>
+<input type="tel" name="phone" placeholder="Phone Number" required>
+<select name="service">
+<option>Individual Therapy</option>
+<option>Couples Counselling</option>
+<option>Youth Counselling</option>
+<option>Career Guidance</option>
+</select>
+<input type="date" name="date">
+<textarea name="message" rows="5" placeholder="Briefly describe your concern"></textarea>
+<button type="submit">Book Appointment</button>
+</form>
+</div>
+
+<div class="card" id="assessment">
+<h3>Mental Health Self-Assessment</h3>
+<p>Over the last two weeks:</p>
+<select class="q"><option value="0">Not at all</option><option value="1">Several days</option><option value="2">More than half the days</option><option value="3">Nearly every day</option></select>
+<select class="q"><option value="0">Not at all</option><option value="1">Several days</option><option value="2">More than half the days</option><option value="3">Nearly every day</option></select>
+<select class="q"><option value="0">Not at all</option><option value="1">Several days</option><option value="2">More than half the days</option><option value="3">Nearly every day</option></select>
+<select class="q"><option value="0">Not at all</option><option value="1">Several days</option><option value="2">More than half the days</option><option value="3">Nearly every day</option></select>
+<button type="button" onclick="assess()">View Results</button>
+<div id="result" class="result"></div>
+</div>
+</div>
+</section>
+
+<section>
+<h2 class="section-title">Client Experiences</h2>
+<div class="card testimonial">
+<p id="testimonial">“The counselling sessions helped me regain confidence and improve my wellbeing.”</p>
+</div>
+</section>
+
+<section id="contact">
+<h2 class="section-title">Contact Us</h2>
+<div class="contact">
+<div class="card">
+<p><strong>Email:</strong> xavieronyango57@gmail.com</p>
+<p><strong>Phone:</strong> 0706 481 366</p>
+<p><strong>Location:</strong> Nairobi, Kenya</p>
+</div>
+<div class="card">
+<form action="https://formsubmit.co/xavieronyango57@gmail.com" method="POST">
+<input type="hidden" name="_captcha" value="false">
+<input type="text" name="name" placeholder="Your Name" required>
+<input type="email" name="email" placeholder="Your Email" required>
+<textarea name="message" rows="6" placeholder="Your Message" required></textarea>
+<button type="submit">Send Message</button>
+</form>
+</div>
+</div>
+</section>
+
+<footer>
+<p>© 2026 Hope Haven Wellness Centre. All Rights Reserved.</p>
+</footer>
+
+<a class="whatsapp" href="https://wa.me/254706481366"><i class="fab fa-whatsapp"></i></a>
 
 <script>
-
-function calculateAssessment(){
-
-const questions =
-document.querySelectorAll(".question");
-
-let total = 0;
-
-questions.forEach(question => {
-total += Number(question.value);
-});
-
-const resultBox =
-document.getElementById("assessmentResult");
-
-const bookingButton =
-document.getElementById("bookNowContainer");
-
-let message = "";
-
-if(total <= 4){
-
-message =
-"✅ Low emotional distress detected. Continue practicing self-care, maintaining healthy relationships, and monitoring your wellbeing.";
-
-resultBox.style.background =
-"#d1e7dd";
-
-resultBox.style.color =
-"#0f5132";
-
-bookingButton.style.display =
-"none";
-
+function assess(){
+let total=0;
+document.querySelectorAll('.q').forEach(q=>total+=parseInt(q.value));
+let msg='Low emotional distress.';
+if(total>4 && total<=8) msg='Mild emotional distress. Consider speaking with a counsellor.';
+if(total>8) msg='Moderate to high emotional distress. Professional support is recommended.';
+const r=document.getElementById('result');
+r.style.display='block';
+r.innerHTML='<strong>Score:</strong> '+total+'/12<br>'+msg;
 }
-
-else if(total <= 8){
-
-message =
-"🟡 Mild emotional distress detected. Consider speaking with a counsellor if symptoms continue or begin affecting daily life.";
-
-resultBox.style.background =
-"#fff3cd";
-
-resultBox.style.color =
-"#664d03";
-
-bookingButton.style.display =
-"block";
-
-}
-
-else if(total <= 12){
-
-message =
-"🟠 Moderate emotional distress detected. Professional counselling may be beneficial to help you manage stress and emotional challenges.";
-
-resultBox.style.background =
-"#ffe5b4";
-
-resultBox.style.color =
-"#7a4100";
-
-bookingButton.style.display =
-"block";
-
-}
-
-else{
-
-message =
-"🔴 High emotional distress detected. We strongly recommend scheduling a counselling session with a qualified mental health professional.";
-
-resultBox.style.background =
-"#f8d7da";
-
-resultBox.style.color =
-"#842029";
-
-bookingButton.style.display =
-"block";
-
-}
-
-resultBox.style.display =
-"block";
-
-resultBox.innerHTML =
-"<strong>Your Score: " +
-total +
-"/15</strong><br><br>" +
-message;
-
-}
-
+const t=[
+'The counselling sessions helped me regain confidence and improve my wellbeing.',
+'Hope Haven provided a safe environment for healing and growth.',
+'I learned practical coping skills that improved my daily life.',
+'Professional, compassionate and supportive services.'
+];
+let i=0;
+setInterval(()=>{i=(i+1)%t.length;document.getElementById('testimonial').textContent=t[i];},4000);
 </script>
+</body>
+</html>
