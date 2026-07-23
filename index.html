@@ -1,525 +1,218 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Saviour Counselling & Wellness Centre</title>
+<div class="card" id="assessment">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<h2 style="margin-bottom:20px;">
+🧠 Mental Health Self Assessment
+</h2>
+
+<p style="margin-bottom:20px;">
+Over the last two weeks, how often have you experienced the following?
+</p>
+
+<div class="question-box">
+
+<label>1. Feeling nervous, anxious, or on edge?</label>
+<select class="question">
+<option value="0">Not at all</option>
+<option value="1">Several days</option>
+<option value="2">More than half the days</option>
+<option value="3">Nearly every day</option>
+</select>
+
+<label>2. Feeling down, depressed, or hopeless?</label>
+<select class="question">
+<option value="0">Not at all</option>
+<option value="1">Several days</option>
+<option value="2">More than half the days</option>
+<option value="3">Nearly every day</option>
+</select>
+
+<label>3. Trouble falling or staying asleep?</label>
+<select class="question">
+<option value="0">Not at all</option>
+<option value="1">Several days</option>
+<option value="2">More than half the days</option>
+<option value="3">Nearly every day</option>
+</select>
+
+<label>4. Feeling tired or having little energy?</label>
+<select class="question">
+<option value="0">Not at all</option>
+<option value="1">Several days</option>
+<option value="2">More than half the days</option>
+<option value="3">Nearly every day</option>
+</select>
+
+<label>5. Difficulty concentrating on tasks?</label>
+<select class="question">
+<option value="0">Not at all</option>
+<option value="1">Several days</option>
+<option value="2">More than half the days</option>
+<option value="3">Nearly every day</option>
+</select>
+
+<button onclick="calculateAssessment()" class="assessment-btn">
+View My Results
+</button>
+
+<div id="assessmentResult"></div>
+
+<div id="bookNowContainer" style="display:none;">
+<a href="#booking" class="book-now-btn">
+Book a Counselling Session
+</a>
+</div>
+
+</div>
 
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-scroll-behavior:smooth;
+.question-box label{
+display:block;
+margin-top:18px;
+margin-bottom:8px;
+font-weight:600;
 }
 
-body{
-background:#f4f8fb;
-color:#333;
-line-height:1.6;
+.question-box select{
+width:100%;
+padding:12px;
+border:1px solid #ddd;
+border-radius:8px;
+margin-bottom:10px;
 }
 
-header{
+.assessment-btn{
+width:100%;
+padding:15px;
+margin-top:20px;
+background:#2f7a22;
+color:white;
+border:none;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+}
+
+.assessment-btn:hover{
+background:#245d1a;
+}
+
+#assessmentResult{
+margin-top:25px;
+padding:20px;
+border-radius:10px;
+font-weight:600;
+display:none;
+}
+
+.book-now-btn{
+display:block;
+text-align:center;
 background:#0d6efd;
 color:white;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 8%;
-position:sticky;
-top:0;
-z-index:1000;
-}
-
-header ul{
-display:flex;
-list-style:none;
-}
-
-header ul li{
-margin-left:20px;
-}
-
-header ul li a{
-color:white;
+padding:15px;
+border-radius:8px;
 text-decoration:none;
+margin-top:20px;
 font-weight:bold;
 }
 
-#darkModeBtn{
-background:white;
-border:none;
-padding:8px 12px;
-border-radius:5px;
-cursor:pointer;
-}
-
-.hero{
-height:90vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-background:linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)),
-url('https://images.unsplash.com/photo-1516302752625-fcc3c50ae61f?w=1200');
-background-size:cover;
-background-position:center;
-color:white;
-padding:20px;
-}
-
-.hero h1{
-font-size:3rem;
-margin-bottom:20px;
-}
-
-.hero p{
-font-size:1.2rem;
-margin-bottom:20px;
-max-width:700px;
-}
-
-.btn{
-background:#198754;
-color:white;
-padding:12px 25px;
-text-decoration:none;
-border-radius:5px;
-}
-
-section{
-padding:70px 10%;
-}
-
-h2{
-text-align:center;
-margin-bottom:30px;
-color:#0d6efd;
-}
-
-.about{
-text-align:center;
-max-width:900px;
-margin:auto;
-}
-
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-}
-
-.card{
-background:white;
-padding:25px;
-border-radius:10px;
-box-shadow:0 3px 10px rgba(0,0,0,.1);
-}
-
-.card h3{
-margin-bottom:10px;
-color:#0d6efd;
-}
-
-form{
-max-width:700px;
-margin:auto;
-background:white;
-padding:30px;
-border-radius:10px;
-box-shadow:0 3px 10px rgba(0,0,0,.1);
-}
-
-input,
-textarea,
-select{
-width:100%;
-padding:12px;
-margin-bottom:15px;
-border:1px solid #ddd;
-border-radius:5px;
-}
-
-button{
-background:#0d6efd;
-color:white;
-border:none;
-padding:12px 20px;
-border-radius:5px;
-cursor:pointer;
-}
-
-button:hover{
-background:#084298;
-}
-
-.testimonial{
-text-align:center;
-background:white;
-padding:30px;
-border-radius:10px;
-box-shadow:0 3px 10px rgba(0,0,0,.1);
-max-width:700px;
-margin:auto;
-font-size:1.1rem;
-}
-
-.quiz-box{
-max-width:600px;
-margin:auto;
-text-align:center;
-background:white;
-padding:30px;
-border-radius:10px;
-box-shadow:0 3px 10px rgba(0,0,0,.1);
-}
-
-.contact-info{
-text-align:center;
-margin-top:30px;
-}
-
-.whatsapp{
-position:fixed;
-bottom:20px;
-right:20px;
-font-size:55px;
-color:#25D366;
-z-index:999;
-}
-
-footer{
-background:#0d6efd;
-color:white;
-text-align:center;
-padding:20px;
-margin-top:40px;
-}
-
-.dark{
-background:#121212;
-color:white;
-}
-
-.dark .card,
-.dark form,
-.dark .testimonial,
-.dark .quiz-box{
-background:#1f1f1f;
-color:white;
-}
-
-@media(max-width:768px){
-
-header{
-flex-direction:column;
-}
-
-header ul{
-flex-wrap:wrap;
-justify-content:center;
-margin-top:10px;
-}
-
-.hero h1{
-font-size:2rem;
-}
-
-}
-
 </style>
-</head>
-
-<body>
-
-<header>
-
-<h2>Saviour Counselling</h2>
-
-<ul>
-<li><a href="#home">Home</a></li>
-<li><a href="#about">About</a></li>
-<li><a href="#services">Services</a></li>
-<li><a href="#booking">Book</a></li>
-<li><a href="#quiz">Assessment</a></li>
-<li><a href="#contact">Contact</a></li>
-</ul>
-
-<button id="darkModeBtn">🌙</button>
-
-</header>
-
-<section class="hero" id="home">
-
-<h1>Your Journey to Healing Starts Here</h1>
-
-<p>
-Professional counselling and therapy services helping
-individuals, couples and young people achieve emotional
-wellness and personal growth.
-</p>
-
-<a href="#booking" class="btn">
-Book Appointment
-</a>
-
-</section>
-
-<section id="about">
-
-<h2>About Me</h2>
-
-<div class="about">
-
-<p>
-My name is Saviour Onyango, a Counsellor and Mental Health
-Advocate with a background in Sociology and Psychology.
-I provide confidential and professional counselling services
-for individuals, couples and young people seeking emotional
-support, healing and personal growth.
-</p>
-
-</div>
-
-</section>
-
-<section id="services">
-
-<h2>Services</h2>
-
-<div class="cards">
-
-<div class="card">
-<h3>Individual Therapy</h3>
-<p>Support for stress, anxiety, depression and life challenges.</p>
-</div>
-
-<div class="card">
-<h3>Couples Counselling</h3>
-<p>Strengthen communication and relationships.</p>
-</div>
-
-<div class="card">
-<h3>Youth Counselling</h3>
-<p>Support for adolescents and young adults.</p>
-</div>
-
-<div class="card">
-<h3>Career Guidance</h3>
-<p>Educational and professional development support.</p>
-</div>
-
-<div class="card">
-<h3>Grief Counselling</h3>
-<p>Support during loss and life transitions.</p>
-</div>
-
-<div class="card">
-<h3>Online Therapy</h3>
-<p>Convenient virtual counselling sessions.</p>
-</div>
-
-</div>
-
-</section>
-
-<section id="booking">
-
-<h2>Book Appointment</h2>
-
-<form action="https://formsubmit.co/Xavieronyango88@gmail.com" method="POST">
-
-<input type="hidden" name="_subject" value="New Counselling Appointment">
-
-<input type="hidden" name="_captcha" value="false">
-
-<input type="text" name="name" placeholder="Full Name" required>
-
-<input type="email" name="email" placeholder="Email Address" required>
-
-<input type="tel" name="phone" placeholder="Phone Number" required>
-
-<select name="service" required>
-<option value="">Select Service</option>
-<option>Individual Therapy</option>
-<option>Couples Counselling</option>
-<option>Youth Counselling</option>
-<option>Career Guidance</option>
-<option>Online Therapy</option>
-</select>
-
-<input type="date" name="date" required>
-
-<textarea name="message" rows="5" placeholder="Briefly describe your concern"></textarea>
-
-<button type="submit">Book Appointment</button>
-
-</form>
-
-</section>
-
-<section id="quiz">
-
-<h2>Mental Health Self Assessment</h2>
-
-<div class="quiz-box">
-
-<p>How often have you felt overwhelmed in the last two weeks?</p>
-
-<br>
-
-<select id="score">
-<option value="0">Rarely</option>
-<option value="1">Sometimes</option>
-<option value="2">Often</option>
-<option value="3">Almost Always</option>
-</select>
-
-<button onclick="checkScore()">
-Check Result
-</button>
-
-<br><br>
-
-<p id="result"></p>
-
-</div>
-
-</section>
-
-<section id="testimonials">
-
-<h2>Client Testimonials</h2>
-
-<div class="testimonial">
-
-<p id="testimonialText">
-"Therapy helped me regain confidence and improve my mental wellbeing."
-</p>
-
-</div>
-
-</section>
-
-<section id="contact">
-
-<h2>Contact Us</h2>
-
-<form action="https://formsubmit.co/Xavieronyango88@gmail.com" method="POST">
-
-<input type="hidden" name="_subject" value="New Website Inquiry">
-
-<input type="text" name="name" placeholder="Your Name" required>
-
-<input type="email" name="email" placeholder="Your Email" required>
-
-<textarea name="message" rows="5" placeholder="Your Message" required></textarea>
-
-<button type="submit">
-Send Message
-</button>
-
-</form>
-
-<div class="contact-info">
-
-<p>📞 0706481366</p>
-
-<p>✉️ Xavieronyango88@gmail.com</p>
-
-<p>📍 Nairobi, Kenya</p>
-
-</div>
-
-<br>
-
-<iframe
-src="https://maps.google.com/maps?q=Nairobi&t=&z=13&ie=UTF8&iwloc=&output=embed"
-width="100%"
-height="300"
-style="border:0;">
-</iframe>
-
-</section>
-
-<a href="https://wa.me/254706481366"
-class="whatsapp"
-target="_blank">
-
-<i class="fab fa-whatsapp"></i>
-
-</a>
-
-<footer>
-
-<p>
-© 2026 Saviour Counselling & Wellness Centre
-</p>
-
-</footer>
 
 <script>
 
-document.getElementById("darkModeBtn")
-.addEventListener("click",function(){
-document.body.classList.toggle("dark");
+function calculateAssessment(){
+
+const questions =
+document.querySelectorAll(".question");
+
+let total = 0;
+
+questions.forEach(question => {
+total += Number(question.value);
 });
 
-function checkScore(){
+const resultBox =
+document.getElementById("assessmentResult");
 
-let score =
-parseInt(document.getElementById("score").value);
+const bookingButton =
+document.getElementById("bookNowContainer");
 
-let result =
-document.getElementById("result");
+let message = "";
 
-if(score <= 1){
+if(total <= 4){
 
-result.innerHTML =
-"Your stress level appears manageable.";
+message =
+"✅ Low emotional distress detected. Continue practicing self-care, maintaining healthy relationships, and monitoring your wellbeing.";
 
-}else{
+resultBox.style.background =
+"#d1e7dd";
 
-result.innerHTML =
-"You may benefit from speaking with a counsellor.";
+resultBox.style.color =
+"#0f5132";
+
+bookingButton.style.display =
+"none";
 
 }
 
+else if(total <= 8){
+
+message =
+"🟡 Mild emotional distress detected. Consider speaking with a counsellor if symptoms continue or begin affecting daily life.";
+
+resultBox.style.background =
+"#fff3cd";
+
+resultBox.style.color =
+"#664d03";
+
+bookingButton.style.display =
+"block";
+
 }
 
-const testimonials = [
+else if(total <= 12){
 
-"Therapy helped me regain confidence and improve my mental wellbeing.",
+message =
+"🟠 Moderate emotional distress detected. Professional counselling may be beneficial to help you manage stress and emotional challenges.";
 
-"The counselling sessions strengthened my relationship and communication skills.",
+resultBox.style.background =
+"#ffe5b4";
 
-"I learned healthy coping strategies that changed my life.",
+resultBox.style.color =
+"#7a4100";
 
-"The support I received helped me navigate a difficult period successfully."
+bookingButton.style.display =
+"block";
 
-];
-
-let current = 0;
-
-setInterval(function(){
-
-current++;
-
-if(current >= testimonials.length){
-current = 0;
 }
 
-document.getElementById("testimonialText").innerHTML =
-testimonials[current];
+else{
 
-},4000);
+message =
+"🔴 High emotional distress detected. We strongly recommend scheduling a counselling session with a qualified mental health professional.";
+
+resultBox.style.background =
+"#f8d7da";
+
+resultBox.style.color =
+"#842029";
+
+bookingButton.style.display =
+"block";
+
+}
+
+resultBox.style.display =
+"block";
+
+resultBox.innerHTML =
+"<strong>Your Score: " +
+total +
+"/15</strong><br><br>" +
+message;
+
+}
 
 </script>
-
-</body>
-</html>
